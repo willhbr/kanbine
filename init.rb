@@ -1,3 +1,7 @@
+Dir[File.expand_path(File.dirname(__FILE__) + '/lib/kanbine_*.rb')].each do |file|
+  require_dependency file.split('/').last.chomp('.rb')
+end
+
 Redmine::Plugin.register :kanbine do
   name 'Kanbine plugin'
   author 'Author name'
