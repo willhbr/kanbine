@@ -3,7 +3,7 @@
   <%= javascript_include_tag 'kanban', plugin: 'kanbine' %>
 <% end %>
 
-<div class="kanban-container">
+<div id="kanban-container">
   <% @ordered_statuses.each do |status| %>
     <%= render partial: 'column', locals: { status: status, issues: @issues[status.id] || [] } %>
   <% end %>

@@ -1,6 +1,6 @@
 <!-- locals are status and list of issues -->
 
-<div class="kanban-column" id="kb-col-<%= status.id %>">
+<div class="kanban-column droppable" id="kb-col-<%= status.id %>">
   <h1><%= status.name %></h1>
   <% issues.each do |issue| %>
     <%= render partial: 'issue_row', locals: { issue: issue } %>

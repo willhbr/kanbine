@@ -1,4 +1,4 @@
-.kanban-container {
+#kanban-container {
   background: #eeeeee;
   clear: both;
 }
@@ -14,4 +14,5 @@
   padding: 5px;
   border: 1px solid #aaaaaa;
   margin: 5px;
+  border-radius: 3px;
 }
