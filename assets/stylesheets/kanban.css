@@ -7,4 +7,11 @@
   float: left;
   clear: none;
   width: 200px;
+  padding: 10px;
+}
+
+.kanban-row {
+  padding: 5px;
+  border: 1px solid #aaaaaa;
+  margin: 5px;
 }

@@ -1,4 +1,5 @@
-<div class="kanban-row" id="kb-row-<%= issue.id %>">
-  <div class="kanban-subject"><%= issue.subject %></div>
-  <div class="kanban-assignee"><%= issue.assigned_to_id && issue.assigned_to.name %></div>
+<div class="kanban-row draggable" id="kb-row-<%= issue.id %>">
+  <div class="issue-id">#<%= issue.id %></div>
+  <div class="issue-subject"><%= issue.subject %></div>
+  <div class="issue-assignee"><%= issue.assigned_to_id && issue.assigned_to.name %></div>
 </div>

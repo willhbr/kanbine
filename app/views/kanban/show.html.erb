@@ -1,8 +1,7 @@
 <%= content_for :header_tags do %>
   <%= stylesheet_link_tag 'kanban', plugin: 'kanbine' %>
+  <%= javascript_include_tag 'kanban', plugin: 'kanbine' %>
 <% end %>
-
-KANBAN, YO!
 
 <div class="kanban-container">
   <% @ordered_statuses.each do |status| %>
