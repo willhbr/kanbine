@@ -1,1 +1,12 @@
-Woooooot
+<%= content_for :header_tags do %>
+  <%= stylesheet_link_tag 'kanban', plugin: 'kanbine' %>
+<% end %>
+
+KANBAN, YO!
+
+<div class="kanban-container">
+  <% @ordered_statuses.each do |status| %>
+    <%= render partial: 'column', locals: { status: status, issues: @issues[status.id] || [] } %>
+  <% end %>
+  <div style="clear:both">
+</div>

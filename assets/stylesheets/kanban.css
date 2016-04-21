@@ -1,0 +1,10 @@
+.kanban-container {
+  background: #eeeeee;
+  clear: both;
+}
+
+.kanban-column {
+  float: left;
+  clear: none;
+  width: 200px;
+}
