@@ -2,5 +2,5 @@
   data-id="<%= issue.id %>">
   <div class="issue-id">#<%= issue.id %></div>
   <div class="issue-subject"><%= issue.subject %></div>
-  <div class="issue-assignee"><%= issue.assigned_to_id && issue.assigned_to.name %></div>
+  <div class="issue-assignee"><%= issue.assigned_to_id && issue.assigned_to.name || 'None' %></div>
 </div>
