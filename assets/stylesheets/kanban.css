@@ -17,6 +17,10 @@
   border-radius: 3px;
 }
 
-.droppable.hovering {
+.sortable.hovering {
   background: #a1d490;
+}
+
+.ui-sortable-placeholder {
+  background: pink;
 }
