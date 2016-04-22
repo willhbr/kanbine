@@ -19,6 +19,11 @@ Redmine::Plugin.register :kanbine do
       :update_status_position
     ]
   }
+  permission :configure_kanbine, {
+		'kanbine/settings' => [
+			:settings
+		]
+	}
 
   menu :project_menu, :kanbine_kanban, {
     controller: :kanban,

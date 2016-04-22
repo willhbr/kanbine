@@ -1,0 +1,12 @@
+<%
+  settings = @project.kanbine_settings
+%>
+
+<%= form_for settings, url: project_redcase_settings_path(@project), method: :post do |f| %>
+  <%= hidden_field_tag :kanbine_settings_id, settings.id %>
+
+  <%= label_tag :kanban_status_ids %>
+  <%= select_tag :kanban_status_ids, options_for_select(IssueStatus.all.map { |is| [is.name, is.id] }, @project.kanban_status_ids), multiple: true %>
+
+  <%= f.submit 'Save' %>
+<% end %>

@@ -6,6 +6,14 @@ module Kanbine
           class_name: 'IssueStatus',
           join_table: :project_kanban_statuses
         }
+
+        def kanbine_settings
+          set = KanbineSettings.find_by_project_id(self.id)
+          unless set
+            set = KanbineSettings.create_with_defaults(self)
+          end
+          set
+        end
       end
     end
   end
