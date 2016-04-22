@@ -30,3 +30,7 @@
   margin: 5px;
   border-radius: 3px;
 }
+
+.ajax-error {
+  background: red;
+}

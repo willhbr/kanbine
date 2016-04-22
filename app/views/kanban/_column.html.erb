@@ -1,4 +1,4 @@
-<div class="kanban-column" id="kb-col-<%= status.id %>">
+<div class="kanban-column" id="kb-col-<%= status.id %>" data-id="<%= status.id %>">
   <h1 class="header"><%= status.name %></h1>
   <div class="sortable">
     <% issues.each do |issue| %>
