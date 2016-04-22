@@ -14,6 +14,9 @@ Redmine::Plugin.register :kanbine do
   permission :kanban_it_up, {
     kanban: [
       :show
+    ],
+    'kanbine/issues' => [
+      :update_status_position
     ]
   }
 
