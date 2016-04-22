@@ -16,3 +16,7 @@
   margin: 5px;
   border-radius: 3px;
 }
+
+.droppable.hovering {
+  background: #a1d490;
+}
