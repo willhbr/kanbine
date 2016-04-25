@@ -1,11 +1,10 @@
 module Kanbine
   module IssueOrder
-    # MAX_POSITION = 32000
+    START_POSITION = 0
     POSITION_GAP = 32
 
     def self.new_position(issue, up_issue, down_issue)
       up_pos = up_issue.nil? ? 0 : up_issue.kanban_position
-      # TODO think of a better max num, and put it somewhere better
       down_pos = down_issue.nil? ? 0 : down_issue.kanban_position
 
       if up_pos == nil || down_pos == nil || up_pos + 1 >= down_pos
@@ -19,8 +18,10 @@ module Kanbine
     # issues should be an array of Issue models, already in position order.
     # get_position_after is the id of a record to return the new position
     # of a record to insert after it
-    def self.rearrange(issues, get_position_after=nil)
-      position = 0
+    def self.rearrange(issues, options={})
+      get_position_after = options[:get_position_after]
+      start_position = options[:start_position] || START_POSITION
+      position = start_position
       res_position = nil
       issues.each do |issue|
         issue.update_column(:kanban_position, position)

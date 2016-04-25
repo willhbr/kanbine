@@ -8,18 +8,22 @@ class Kanbine::IssuesController < ApplicationController
     pos = Kanbine::IssueOrder.new_position issue, up_issue, down_issue
 
     if pos.nil?
-      issues = issue.project.issues.where(status_id: status.id).order(:kanban_position)
-      if up_issue.nil?
-        issue.update_column(:kanban_position, 0)
-        pos = Kanbine::IssueOrder.rearrange issues, issue.id
+      if up_issue != nil && up_issue.kanban_position != nil && down_issue == nil # Moving to the bottom
+        pos = up_issue.kanban_position + Kanbine::IssueOrder::POSITION_GAP
       else
-        pos =  Kanbine::IssueOrder.rearrange issues, up_issue.id
+        issues = issue.project.issues.where(status_id: status.id).order(:kanban_position)
+        if up_issue.nil? # Rearrange the whole lot
+          Kanbine::IssueOrder.rearrange issues, start_position: Kanbine::IssueOrder::POSITION_GAP
+          pos = Kanbine::IssueOrder::START_POSITION
+        else
+          pos = Kanbine::IssueOrder.rearrange issues, get_position_after: up_issue.id
+        end
       end
     end
 
     issue.status = status
     issue.kanban_position = pos
-    issue.save
+    issue.save!
     render json: issue
   end
 end
