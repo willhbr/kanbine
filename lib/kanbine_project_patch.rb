@@ -7,6 +7,16 @@ module Kanbine
           join_table: :project_kanban_statuses
         }
 
+        has_and_belongs_to_many :kanban_trackers, {
+          class_name: 'Tracker',
+          join_table: :project_kanban_trackers
+        }
+
+        def kanban_column(status)
+          status_id = status.is_a?(IssueStatus) ? status.id : status.to_i
+          self.issues.where(tracker_id: kanban_tracker_ids, status_id: status_id).order(:kanban_position)
+        end
+
         def kanbine_settings
           set = KanbineSettings.find_by_project_id(self.id)
           unless set
