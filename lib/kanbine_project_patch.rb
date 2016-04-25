@@ -12,9 +12,14 @@ module Kanbine
           join_table: :project_kanban_trackers
         }
 
-        def kanban_column(status)
+        def kanban_column(status, version=:all)
           status_id = status.is_a?(IssueStatus) ? status.id : status.to_i
-          self.issues.where(tracker_id: kanban_tracker_ids, status_id: status_id).order(:kanban_position)
+          scope = self.issues.where(tracker_id: kanban_tracker_ids, status_id: status_id).order(:kanban_position)
+          if version != :all
+            version_id = version.is_a?(Version) ? version.id : version.to_i
+            scope = scope.where(fixed_version_id: version_id)
+          end
+          scope
         end
 
         def kanbine_settings

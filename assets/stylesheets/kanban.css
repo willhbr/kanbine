@@ -39,3 +39,7 @@
 .ajax-error {
   background: red;
 }
+
+.version.current {
+  color: black;
+}

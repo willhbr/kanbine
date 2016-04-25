@@ -6,4 +6,4 @@ resource :kanbine, only: :none do
   post 'projects/:id/settings', to: 'kanbine/settings#settings', as: 'settings'
 end
 
-get 'projects/:id/kanban', to: 'kanban#show'
+get 'projects/:id/kanban(/version/:version_id)', to: 'kanban#show', as: 'kanbine'
