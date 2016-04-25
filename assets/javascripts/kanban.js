@@ -15,11 +15,14 @@
       '/kanbine/issues/update_status_position',
       dat
     ).done(function(res) {
-
+      if(res.saved) {
+        console.log("Saved!");
+      } else {
+        alert(res.errors);
+      }
     }).fail(function(res) {
       elem.addClass('ajax-error');
     }).always(function(res) {
-
     });
   }
 

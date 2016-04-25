@@ -23,7 +23,17 @@ class Kanbine::IssuesController < ApplicationController
 
     issue.status = status
     issue.kanban_position = pos
-    issue.save!
-    render json: issue
+
+    if issue.save
+      render json: {
+        saved: true,
+        new_position: issue.kanban_position
+      }
+    else
+      render json: {
+        saved: false,
+        errors: issue.errors.full_messages
+      }
+    end
   end
 end
