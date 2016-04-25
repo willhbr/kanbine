@@ -1,6 +1,8 @@
 # Automatically load all ruby files in lib/ with 'kanbine' prefix
-Dir[File.expand_path(File.dirname(__FILE__) + '/lib/kanbine_*.rb')].each do |file|
-  require_dependency file.split('/').last.chomp('.rb')
+Rails.configuration.to_prepare do
+  Dir[File.expand_path(File.dirname(__FILE__) + '/lib/kanbine_*.rb')].each do |file|
+    require_dependency file.split('/').last.chomp('.rb')
+  end
 end
 
 Redmine::Plugin.register :kanbine do
