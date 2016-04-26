@@ -1,11 +1,12 @@
 #kanban-container {
   clear: both;
+  overflow-x: scroll;
 }
 
 .kanban-column {
   float: left;
   clear: none;
-  width: 200px;
+  width: 250px;
   padding: 10px;
 }
 
@@ -27,6 +28,11 @@
   overflow: hidden;
 }
 
+.issue-subject a {
+  color: black !important;
+  text-decoration: none !important;
+}
+
 .sortable.hovering {
   /*background: #a1d490;*/
 }
@@ -39,7 +45,7 @@
 }
 
 .ajax-error {
-  background: red;
+  border-color: red !important;
 }
 
 .version.current {

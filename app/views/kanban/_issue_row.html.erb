@@ -1,6 +1,16 @@
 <div class="kanban-row draggable <%= "color-id-#{issue.kanban_color_id}" rescue '' %>" id="kb-row-<%= issue.id %>"
   data-id="<%= issue.id %>">
-  <div class="issue-id">#<%= issue.id %></div>
-  <div class="issue-subject"><%= issue.subject %></div>
-  <div class="issue-assignee"><%= issue.assigned_to_id && issue.assigned_to.name || 'None' %></div>
+  <div class="issue-id">
+    <%= link_to issue.id, '#', target: '_blank' %>
+  </div>
+  <div class="issue-subject">
+    <%= issue.subject %>
+  </div>
+  <div class="issue-assignee">
+    <% if issue.assigned_to_id %>
+      <%= link_to issue.assigned_to.name, issue.assigned_to %>
+    <% else %>
+      &nbsp;
+    <% end %>
+  </div>
 </div>
