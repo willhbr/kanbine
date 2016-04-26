@@ -13,4 +13,13 @@
       &nbsp;
     <% end %>
   </div>
+  <div id="fields" style="display:none">
+    <%
+    [
+      :subject,
+      :description
+    ].each do |name| %>
+      <span id="<%= name %>"><%= issue.send(name) %></span>
+    <% end %>
+  </div>
 </div>

@@ -1,8 +1,16 @@
 (function() {
   function showDialogFor(elem) {
-    var html = $('#dialog-helper').html();
-    var title = 'DIALOG  TITLE WOOOO';
-    $('<div></div>').appendTo('body').html(html).dialog({
+    var dialog = $('#dialog-helper').clone();
+    var title = 'Edit #' + elem.data('id');
+    var fields = elem.find('#fields').children();
+    for(var i = 0; i < fields.length; i++) {
+      var field = $(fields[i]);
+      var name = field.attr('id');
+      var value = field.html();
+      console.log(name, value);
+      dialog.find('#field-' + name).html(value);
+    }
+    dialog.dialog({
       modal: true, title: title, autoOpen: true,
       width: 300, resizable: true,
       buttons: {
@@ -32,15 +40,16 @@
       '/kanbine/issues/update_status_position',
       dat
     ).done(function(res) {
-      if(res.saved) {
-        console.log("Saved!");
-      } else {
+      if(!res.saved) {
         elem.addClass('ajax-error');
-        alert(res.errors);
+        var msg = res.errors.join('<br>');
+        $("<div>" + msg + "</div>").dialog({
+          title: 'Error updating #' + dat.id,
+          buttons: { 'Ok': function () { $(this).dialog('close'); } }
+        });
       }
     }).fail(function(res) {
       elem.addClass('ajax-error');
-    }).always(function(res) {
     });
   }
   var allowClick = true;
@@ -61,7 +70,6 @@
     });
     $('.kanban-row .issue-subject').on('click', function(e) {
       if(allowClick) {
-        console.log(e);
         showDialogFor($(e.currentTarget).parent());
       }
     });
