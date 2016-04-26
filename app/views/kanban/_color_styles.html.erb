@@ -14,9 +14,19 @@
     <% end %>
   <% else %>
     <% div = 360 / project.kanban_statuses.count %>
+    <% colors = [
+      'cc7833',
+      'ffc66d',
+      'a5c261',
+      '6d9cbe',
+      'b6b3eb',
+      'bc9458',
+      '519f50',
+      'da4939'
+    ] %>
     <% project.kanban_statuses.order(:position).each_with_index do |status, i| %>
       #kb-col-<%= status.id %> .kanban-row {
-        border-color: hsl(<%= div * i %>, 50%, 60%);
+        border-color: #<%= colors[i % colors.length] %>;
       }
     <% end %>
   <% end %>
