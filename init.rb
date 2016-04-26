@@ -13,23 +13,25 @@ Redmine::Plugin.register :kanbine do
   url 'http://example.com/path/to/plugin'
   author_url 'http://javanut.net'
 
-  permission :kanban_it_up, {
-    kanban: [
-      :show
-    ],
-    'kanbine/issues' => [
-      :update_status_position
-    ]
-  }
-  permission :configure_kanbine, {
-		'kanbine/settings' => [
-			:settings
-		]
-	}
+  project_module :kanbine do
+    permission :kanban_it_up, {
+      kanban: [
+        :show
+      ],
+      'kanbine/issues' => [
+        :update_status_position
+      ]
+    }
+    permission :configure_kanbine, {
+      'kanbine/settings' => [
+        :settings
+      ]
+    }
+  end
 
   menu :project_menu, :kanbine_kanban, {
     controller: :kanban,
     action: :show
-  }, caption: :label_kanban, after: :roadmap
+  }, caption: :label_kanban, after: :roadmap, if: lambda { |pr| pr.module_enabled?('kanbine') }
 
 end

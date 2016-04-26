@@ -11,7 +11,7 @@ module Kanbine
             :action => :configure_kanbine,
             :partial => 'kanbine/project_settings',
             :label => :label_kanbine
-          } if User.current.allowed_to?(:configure_kanbine, @project)
+          } if User.current.allowed_to?(:configure_kanbine, @project) && @project.module_enabled?('kanbine')
           return tabs
         end
         alias_method_chain :project_settings_tabs, :kanbine

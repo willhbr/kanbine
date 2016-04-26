@@ -9,7 +9,7 @@ class Kanbine::SettingsController < ApplicationController
     if settings
       @project.kanbine_settings.update_attribute(:color_tag_group_id, settings[:color_tag_group_id])
     end
-
+    flash[:notice] = 'Settings updated'
     redirect_to "/projects/#{@project.identifier}/settings/kanbine"
   end
 end

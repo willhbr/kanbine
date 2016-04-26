@@ -1,5 +1,5 @@
 <style>
-  <% if project.respond_to?(:tags) %>
+  <% if project.respond_to?(:tags) && project.kanbine_settings.color_tag_group_id.present? %>
     <% project.tags(project.kanbine_settings.color_tag_group_id).each do |tag| %>
       <% next if tag.color.blank? %>
       .color-id-<%= tag.id %> {
