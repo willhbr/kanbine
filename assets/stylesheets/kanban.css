@@ -27,6 +27,10 @@ a.version {
   text-align: center;
 }
 
+.kanban-column .sortable {
+  min-height: 200px;
+}
+
 .kanban-row {
   padding: 5px;
   border: 1px solid #aaaaaa;
