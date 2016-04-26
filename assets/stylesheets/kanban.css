@@ -5,6 +5,10 @@ a.version {
   background-color: #eeeeee;
   color: #190F10;
 }
+
+a.version.current {
+  background-color: #cccccc;
+}
 #versions {
   margin: 8px;
   width: 100%;
@@ -43,6 +47,7 @@ a.version {
 .issue-subject {
   height: 30px;
   overflow: hidden;
+  cursor: move;
 }
 
 .sortable.hovering {
