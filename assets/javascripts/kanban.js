@@ -2,7 +2,8 @@
   function showErrors(elem, res) {
     if(!res.saved) {
       elem.addClass('ajax-error');
-      var msg = res.errors !== undefined ? res.errors.join('<br>') : res;
+      console.log(res);
+      var msg = res.errors !== undefined ? res.errors.join('<br>') : res.responseText;
       $("<div>" + msg + "</div>").dialog({
         title: 'Error updating #' + elem.data('id'),
         buttons: { 'Ok': function () { $(this).dialog('close'); } }

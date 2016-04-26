@@ -39,6 +39,8 @@ class Kanbine::IssuesController < ApplicationController
 
   def update
     issue = Issue.find(params[:issue_id])
+
+    issue.init_journal(User.current)
     if issue.update_attributes(issue_params)
       html = render_to_string partial: 'kanban/issue_row', locals: { issue: issue }, layout: false
       render json: {

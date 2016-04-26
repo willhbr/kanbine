@@ -1,7 +1,7 @@
 <div class="kanban-row draggable <%= "color-id-#{issue.kanban_color_id}" rescue '' %>" id="kb-row-<%= issue.id %>"
   data-id="<%= issue.id %>">
   <div class="issue-id">
-    <%= link_to issue.id, '#', target: '_blank' %>
+    <%= link_to issue.id, issue, target: '_blank' %>
   </div>
   <div class="issue-subject">
     <%= issue.subject %>
