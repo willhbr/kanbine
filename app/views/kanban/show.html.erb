@@ -1,6 +1,7 @@
 <%= content_for :header_tags do %>
   <%= stylesheet_link_tag 'kanban', plugin: 'kanbine' %>
   <%= javascript_include_tag 'kanban', plugin: 'kanbine' %>
+  <%= render partial: 'color_styles', locals: { project: @project } %>
 <% end %>
 
 <%= render partial: 'versions' %>

@@ -5,6 +5,14 @@
 <%= form_for settings, url: settings_kanbine_path(id: @project.id), method: :post do |f| %>
   <%= hidden_field_tag :kanbine_settings_id, settings.id %>
 
+  <% if @project.respond_to? :tag_groups %>
+    <% options = @project.tag_groups.map { |t| [t.name, t.id] } %>
+    <% if options.any? %>
+      <label>Tag color for cards</label>
+      <%= f.select :color_tag_group_id, options_for_select(options, settings.color_tag_group_id), include_blank: true %>
+    <% end %>
+  <% end %>
+
   <div>
     <%= label_tag :kanban_status_ids %>
     <%= select_tag :kanban_status_ids, options_for_select(IssueStatus.all.map { |is| [is.name, is.id] }, @project.kanban_status_ids), multiple: true %>

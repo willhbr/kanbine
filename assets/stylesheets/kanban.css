@@ -16,8 +16,10 @@
 .kanban-row {
   padding: 5px;
   border: 1px solid #aaaaaa;
+  border-right: 6px solid #aaaaaa;
   margin: 5px;
-  border-radius: 3px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .issue-subject {
