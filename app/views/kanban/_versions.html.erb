@@ -1,6 +1,8 @@
-<div id="versions">
-  <%= link_to l(:all_versions), kanbine_path(@project), class: @version_id.nil? ? 'current version all' : 'version all' %>
-  <% @versions.each do |version| %>
-    <%= link_to version.name, kanbine_path(@project, version), class: version.id == @version_id ? 'current version' : 'version' %>
-  <% end %>
-</div>
+<% if @versions.any? %>
+  <div id="versions">
+    <%= link_to l(:all_versions), kanbine_path(@project), class: @version_id.nil? ? 'current version all' : 'version all' %>
+    <% @versions.each do |version| %>
+      <%= link_to version.name, kanbine_path(@project, version), class: version.id == @version_id ? 'current version' : 'version' %>
+    <% end %>
+  </div>
+<% end %>
