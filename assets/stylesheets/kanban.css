@@ -48,8 +48,10 @@ a.version {
 .placeholder {
   padding: 4px;
   border: 2px dashed #adadad;
+  border-right: 6px solid #adadad;
   margin: 5px;
-  border-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 
 .ajax-error {

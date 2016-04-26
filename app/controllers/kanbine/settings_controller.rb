@@ -5,7 +5,10 @@ class Kanbine::SettingsController < ApplicationController
     @project.kanban_status_ids = params[:kanban_status_ids]
     @project.kanban_tracker_ids = params[:kanban_tracker_ids]
 
-    @project.kanbine_settings.update_attribute(:color_tag_group_id, params[:kanbine_settings][:color_tag_group_id])
+    settings = params[:kanbine_settings]
+    if settings
+      @project.kanbine_settings.update_attribute(:color_tag_group_id, settings[:color_tag_group_id])
+    end
 
     redirect_to "/projects/#{@project.identifier}/settings/kanbine"
   end

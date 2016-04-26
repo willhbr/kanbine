@@ -13,7 +13,8 @@
       }
     <% end %>
   <% else %>
-    <% div = 360 / project.kanban_statuses.count %>
+    <% count = project.kanban_statuses.count %>
+    <% div = 360 / (count == 0 ? 1 : count) %>
     <% colors = [
       'cc7833',
       'ffc66d',
