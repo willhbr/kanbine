@@ -5,23 +5,35 @@
 <%= form_for settings, url: settings_kanbine_path(id: @project.id), method: :post do |f| %>
   <%= hidden_field_tag :kanbine_settings_id, settings.id %>
 
+  <h3>Statuses</h3>
+  <%= render partial: 'kanbine/checkboxes', locals: {
+    collection: 'kanban_status',
+    objects: IssueStatus.all,
+    name_field: :name,
+    object: :kanbine_settings,
+    included: @project.kanban_statuses
+  } %>
+
+  <h3>Trackers</h3>
+  <%= render partial: 'kanbine/checkboxes', locals: {
+    collection: 'kanban_tracker',
+    objects: @project.trackers,
+    name_field: :name,
+    object: :kanbine_settings,
+    included: @project.kanban_trackers
+  } %>
+
   <% if @project.respond_to? :tag_groups %>
     <% options = @project.tag_groups.map { |t| [t.name, t.id] } %>
     <% if options.any? %>
-      <label>Tag color for cards</label>
-      <%= f.select :color_tag_group_id, options_for_select(options, settings.color_tag_group_id), include_blank: true %>
+      <h3>Tag Colour</h3>
+      <p>Group to use to colour issues on the kanban screen</p>
+      <p>
+        <%= f.select :color_tag_group_id, options_for_select(options, settings.color_tag_group_id), include_blank: true %>
+      </p>
     <% end %>
   <% end %>
 
-  <div>
-    <%= label_tag :kanban_status_ids %>
-    <%= select_tag :kanban_status_ids, options_for_select(IssueStatus.all.map { |is| [is.name, is.id] }, @project.kanban_status_ids), multiple: true %>
-  </div>
-
-  <div>
-    <%= label_tag :kanban_tracker_ids %>
-    <%= select_tag :kanban_tracker_ids, options_for_select(@project.trackers.map { |tr| [tr.name, tr.id] }, @project.kanban_tracker_ids), multiple: true %>
-  </div>
-
+  <br>
   <%= f.submit 'Save' %>
 <% end %>

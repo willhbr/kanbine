@@ -6,7 +6,7 @@
         border-color: <%= tag.color %>;
       }
     <% end %>
-  <% elsif project.respond_to?(:story_themes) %>
+  <% elsif project.respond_to?(:story_themes) && @project.module_enabled?('backlogs') %>
     <% project.story_themes.reject { |t| t.color.blank? }.each do |theme| %>
       .color-id-<%= theme.id %> {
         border-color: <%= theme.color %>;

@@ -1,0 +1,17 @@
+<% i = 0 %>
+<% included_ids = Set.new included.map(&:id) %>
+<table>
+  <% objects.each do |obj| %>
+    <% if i % 2 == 0 %>
+      <tr>
+    <% end %>
+    <td>
+      <%= check_box_tag "#{object}[#{collection}_ids][]", obj.id,
+          included_ids.include?(obj.id), id: "#{collection}-#{obj.id}", class: "#{collection}-check" %>
+      <%= label_tag "#{collection}-#{obj.id}", obj.send(name_field) %>
+    </td>
+    <% if (i += 1) % 2 == 0 %>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
