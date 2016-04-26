@@ -13,7 +13,12 @@
     $.post(
       '/kanbine/issues/' + id + '/update',
       form.serialize()
-    ).always(function(res) {
+    ).done(function(res) {
+      if(res.saved) {
+        var cont = $(res.html).html();
+        elem.html(cont);
+      }
+    }).always(function(res) {
       showErrors(elem, res);
     });
   }
@@ -23,7 +28,7 @@
       var field = $(fields[i]);
       var name = field.attr('id');
       var value = field.html();
-      var target = dialog.find('#' + name);
+      var target = dialog.find('#issue_' + name);
       target.val(value);
     }
   }
@@ -84,7 +89,7 @@
         updateStatusPosition(ui.item);
       }
     });
-    $('.kanban-row .issue-subject').on('click', function(e) {
+    $(document).on('click', '.kanban-row .issue-subject', function(e) {
       if(allowClick) {
         showDialogFor($(e.currentTarget).parent());
       }

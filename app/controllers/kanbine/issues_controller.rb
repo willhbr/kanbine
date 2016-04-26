@@ -38,7 +38,22 @@ class Kanbine::IssuesController < ApplicationController
   end
 
   def update
-    binding.pry
-    render nothing: true
+    issue = Issue.find(params[:issue_id])
+    if issue.update_attributes(issue_params)
+      html = render_to_string partial: 'kanban/issue_row', locals: { issue: issue }, layout: false
+      render json: {
+        saved: true,
+        html: html
+      }
+    else
+      render json: {
+        saved: false,
+        errors: issue.errors.full_messages
+      }
+    end
+  end
+
+  def issue_params
+    params.require(:issue).permit!
   end
 end
