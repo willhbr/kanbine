@@ -51,3 +51,7 @@
 .version.current {
   color: black;
 }
+
+#dialog-helper form * {
+  width: 98%;
+}

@@ -1,26 +1,51 @@
 (function() {
-  function showDialogFor(elem) {
-    var dialog = $('#dialog-helper').clone();
-    var title = 'Edit #' + elem.data('id');
+  function showErrors(elem, res) {
+    if(!res.saved) {
+      elem.addClass('ajax-error');
+      var msg = res.errors !== undefined ? res.errors.join('<br>') : res;
+      $("<div>" + msg + "</div>").dialog({
+        title: 'Error updating #' + elem.data('id'),
+        buttons: { 'Ok': function () { $(this).dialog('close'); } }
+      });
+    }
+  }
+  function saveIssue(id, elem, form) {
+    $.post(
+      '/kanbine/issues/' + id + '/update',
+      form.serialize()
+    ).always(function(res) {
+      showErrors(elem, res);
+    });
+  }
+  function insertIssueIntoDialog(elem, dialog) {
     var fields = elem.find('#fields').children();
     for(var i = 0; i < fields.length; i++) {
       var field = $(fields[i]);
       var name = field.attr('id');
       var value = field.html();
-      console.log(name, value);
-      dialog.find('#field-' + name).html(value);
+      var target = dialog.find('#' + name);
+      target.val(value);
     }
+  }
+  function showDialogFor(elem) {
+    var dialog = $('#dialog-helper').clone();
+    var id = elem.data('id');
+    var title = 'Edit #' + id;
+    insertIssueIntoDialog(elem, dialog);
     dialog.dialog({
       modal: true, title: title, autoOpen: true,
       width: 300, resizable: true,
       buttons: {
-        'Save': function(){},
-        'Cancel': function (event, ui) {
-            $(this).dialog('close');
+        'Save': function(event, ui) {
+          saveIssue(id, elem, dialog.find('form').first());
+          $(this).dialog('close');
+        },
+        'Cancel': function(event, ui) {
+          $(this).dialog('close');
         }
       },
       close: function (event, ui) {
-          $(this).remove();
+        $(this).remove();
       }
     });
   }
@@ -39,17 +64,8 @@
     $.post(
       '/kanbine/issues/update_status_position',
       dat
-    ).done(function(res) {
-      if(!res.saved) {
-        elem.addClass('ajax-error');
-        var msg = res.errors.join('<br>');
-        $("<div>" + msg + "</div>").dialog({
-          title: 'Error updating #' + dat.id,
-          buttons: { 'Ok': function () { $(this).dialog('close'); } }
-        });
-      }
-    }).fail(function(res) {
-      elem.addClass('ajax-error');
+    ).always(function(res) {
+      showErrors(elem, res);
     });
   }
   var allowClick = true;

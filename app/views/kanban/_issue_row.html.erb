@@ -17,7 +17,9 @@
     <%
     [
       :subject,
-      :description
+      :description,
+      :assigned_to_id,
+      :fixed_version_id
     ].each do |name| %>
       <span id="<%= name %>"><%= issue.send(name) %></span>
     <% end %>

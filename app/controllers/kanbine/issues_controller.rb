@@ -36,4 +36,9 @@ class Kanbine::IssuesController < ApplicationController
       }
     end
   end
+
+  def update
+    binding.pry
+    render nothing: true
+  end
 end

@@ -1,4 +1,13 @@
 <div id="dialog-helper" style="display:none">
-  <span id="field-subject"></span>
-  <span id="field-description"></span>
+  <%= form_tag '/issues/kanbine_update' do %>
+    <div id="issue-errors" style="display: none"></div>
+    <%= label_tag :subject %>
+    <%= text_field_tag :subject %>
+    <%= label_tag :description %>
+    <%= text_area_tag :description, {}, rows: 10 %>
+    <%= label_tag :assigned_to %>
+    <%= select_tag :assigned_to_id, options_for_select(@project.users.order(:firstname, :lastname).map { |u| [u.name, u.id] }), include_blank: true %>
+    <%= label_tag :fixed_version %>
+    <%= select_tag :fixed_version_id, options_for_select(@project.versions.open.visible.map { |s| [s.name, s.id] }), include_blank: true %>
+  <% end %>
 </div>

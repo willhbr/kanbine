@@ -3,6 +3,7 @@
 
 resource :kanbine, only: :none do
   post 'issues/update_status_position', to: 'kanbine/issues#update_status_position'
+  post 'issues/:issue_id/update', to: 'kanbine/issues#update'
   post 'projects/:id/settings', to: 'kanbine/settings#settings', as: 'settings'
 end
 
