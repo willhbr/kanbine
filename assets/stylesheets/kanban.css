@@ -1,3 +1,16 @@
+a.version {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #eeeeee;
+  color: #190F10;
+}
+#versions {
+  margin: 8px;
+  width: 100%;
+  text-align: center;
+}
+
 #kanban-container {
   clear: both;
   overflow-x: scroll;
@@ -28,11 +41,6 @@
   overflow: hidden;
 }
 
-.issue-subject a {
-  color: black !important;
-  text-decoration: none !important;
-}
-
 .sortable.hovering {
   /*background: #a1d490;*/
 }
@@ -46,10 +54,6 @@
 
 .ajax-error {
   border-color: red !important;
-}
-
-.version.current {
-  color: black;
 }
 
 #dialog-helper form * {
