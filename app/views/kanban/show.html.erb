@@ -2,9 +2,12 @@
   <%= stylesheet_link_tag 'kanban', plugin: 'kanbine' %>
   <%= javascript_include_tag 'kanban', plugin: 'kanbine' %>
   <%= render partial: 'color_styles', locals: { project: @project } %>
+  <%= call_hook(:view_kanbine_header_tags, {}) %>
 <% end %>
 
 <%= render partial: 'versions' %>
+
+<%= call_hook(:view_kanbine_above_container, {}) %>
 
 <div id="outer-container">
   <div id="kanban-container" data-version="<%= @version_id %>"

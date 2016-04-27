@@ -12,5 +12,6 @@
     <%= f.label :tracker %>
     <%= f.select :tracker_id, options_for_select(@project.kanban_trackers.map { |s| [s.name, s.id] }) %>
     <%= f.hidden_field :status_id %>
+    <%= call_hook(:view_kanbine_issue_editable_fields_form, { f: f }) %>
   <% end %>
 </div>
