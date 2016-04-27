@@ -23,6 +23,12 @@ a.version.current {
   clear: both;
 }
 
+#kanban-info {
+  text-align: center;
+  margin: 10px;
+  color: #555555;
+}
+
 .kanban-column {
   float: left;
   clear: none;

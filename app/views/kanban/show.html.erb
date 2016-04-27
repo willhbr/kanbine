@@ -15,10 +15,16 @@
     <% @ordered_statuses.each do |status| %>
       <%= render partial: 'column', locals: { status: status, issues: @issues[status.id] || [] } %>
     <% end %>
-    <div style="clear:both">
+    <div style="clear:both"></div>
   </div>
 </div>
 
 <%= call_hook(:view_kanbine_below_container, {}) %>
+
+<div id="kanban-info">
+  <%= pluralize(@not_shown_count_statuses, 'issue') %> with other statuses not shown.<br>
+  <%= pluralize(@not_shown_count_trackers, 'issue') %> with other trackers not shown.<br>
+  <%= pluralize(@overflow_count, 'issue') %> hidden to keep the columns managable.
+</div>
 
 <%= render partial: 'dialog_helper' %>
