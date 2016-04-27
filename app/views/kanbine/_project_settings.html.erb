@@ -34,6 +34,10 @@
     <% end %>
   <% end %>
 
+  <h3>Misc</h3>
+  <p>Number of issues per column (blank for no limit)</p>
+  <p><%= f.text_field :issue_limit %></p>
+
   <br>
   <%= f.submit 'Save' %>
 <% end %>
