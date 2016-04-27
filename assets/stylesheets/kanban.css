@@ -40,6 +40,9 @@ a.version.current {
   text-decoration: none;
   text-align: center;
 }
+.kanban-column h1.header a {
+  color: #50433c !important;
+}
 
 .kanban-column .sortable {
   padding-bottom: 80px;
