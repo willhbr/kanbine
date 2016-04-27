@@ -29,4 +29,10 @@ module Helpers
   def click_id(id)
     find(id).click
   end
+
+  def check_all(*args)
+    args.each do |arg|
+      check arg.to_s
+    end
+  end
 end
