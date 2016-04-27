@@ -60,9 +60,20 @@ a.version.current {
   overflow: hidden;
   cursor: move;
 }
-
-.sortable.hovering {
-  /*background: #a1d490;*/
+.issue-id {
+  clear: none;
+  float: left;
+}
+.issue-tracker {
+  clear: none;
+  float: right;
+  color: #555555;
+}
+.issue-subject {
+  clear: both;
+}
+.issue-clear {
+  clear: both;
 }
 
 .placeholder {
