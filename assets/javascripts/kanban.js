@@ -1,4 +1,6 @@
 (function() {
+  var projectID;
+
   function showErrors(elem, res) {
     if(!res.saved) {
       elem.addClass('ajax-error');
@@ -11,10 +13,25 @@
     }
   }
 
+  function showDialogWithErrors(values, res, dialogCreator) {
+    if(!res.saved) {
+      var diag = dialogCreator();
+
+      var newForm = diag.find('form');
+      for(var i = 0; i < values.length; i++) {
+        newForm.find("[name='" + values[i].name + "']").val(values[i].value);
+      }
+      var errs = diag.find('#issue-errors');
+      var msg = res.errors !== undefined ? res.errors.join('<br>') : res.responseText;
+      errs.text(msg);
+      errs.show();
+    }
+  }
+
   function saveIssue(id, elem, form) {
     var values = form.serializeArray();
     $.post(
-      '/kanbine/issues/' + id + '/update',
+      '/kanbine/projects/' + projectID + '/' + id + '/update',
       form.serialize()
     ).done(function(res) {
       if(res.saved) {
@@ -22,44 +39,24 @@
         elem.html(cont);
       }
     }).always(function(res) {
-      if(!res.saved) {
-        var diag = showUpdateDialogFor(elem);
-
-        var newForm = diag.find('form');
-        for(var i = 0; i < values.length; i++) {
-          newForm.find("[name='" + values[i].name + "']").val(values[i].value);
-        }
-        var errs = diag.find('#issue-errors');
-        var msg = res.errors !== undefined ? res.errors.join('<br>') : res.responseText;
-        errs.text(msg);
-        errs.show();
-      }
+      showDialogWithErrors(values, res, function() {
+        return showUpdateDialogFor(elem);
+      });
     });
   }
   function createIssue(statusID, form) {
-    // TODO Fix this shiz
-    var projectID = $('#kanban-container').data('project');
     var values = form.serializeArray();
     $.post(
-      '/kanbine/issues/' + projectID + '/create',
+      '/kanbine/projects/' + projectID + '/create',
       form.serialize()
     ).done(function(res) {
       if(res.saved) {
         $('#kb-col-' + statusID + ' .sortable').prepend($(res.html))
       }
     }).always(function(res) {
-      if(!res.saved) {
-        var diag = showCreateDialogForStatus(statusID);
-
-        var newForm = diag.find('form');
-        for(var i = 0; i < values.length; i++) {
-          newForm.find("[name='" + values[i].name + "']").val(values[i].value);
-        }
-        var errs = diag.find('#issue-errors');
-        var msg = res.errors !== undefined ? res.errors.join('<br>') : res.responseText;
-        errs.text(msg);
-        errs.show();
-      }
+      showDialogWithErrors(values, res, function() {
+        return showCreateDialogForStatus(statusID);
+      });
     });
   }
   function insertIssueIntoDialog(elem, dialog) {
@@ -119,7 +116,7 @@
   }
   function issueToJSON(elem) {
     var data = {
-      id: elem.data('id'),
+      issue_id: elem.data('id'),
       down: elem.next().data('id'),
       up: elem.prev().data('id'),
       status_id: elem.parents('.kanban-column').data('id')
@@ -130,7 +127,7 @@
     elem.removeClass('ajax-error');
     var dat = issueToJSON(elem);
     $.post(
-      '/kanbine/issues/update_status_position',
+      '/kanbine/projects/' + projectID + '/update_status_position',
       dat
     ).always(function(res) {
       showErrors(elem, res);
@@ -150,6 +147,7 @@
   }
   var allowClick = true;
   $(document).ready(function() {
+    projectID = $('#kanban-container').data('project');
     setContainerWidth();
     disableDialogFormSubmit();
     $('#kanban-container').find('.kanban-column .sortable').sortable({

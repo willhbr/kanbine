@@ -19,7 +19,9 @@ Redmine::Plugin.register :kanbine do
         :show
       ],
       'kanbine/issues' => [
-        :update_status_position
+        :update_status_position,
+        :create,
+        :update
       ]
     }
     permission :configure_kanbine, {

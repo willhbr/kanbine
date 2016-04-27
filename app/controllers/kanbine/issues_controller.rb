@@ -1,6 +1,8 @@
 class Kanbine::IssuesController < ApplicationController
+  before_filter :find_project, :authorize
+
   def update_status_position
-    issue = Issue.find(params[:id])
+    issue = Issue.find(params[:issue_id])
     up_issue = Issue.find_by_id(params[:up])
     down_issue = Issue.find_by_id(params[:down])
     status = IssueStatus.find(params[:status_id])
@@ -40,7 +42,8 @@ class Kanbine::IssuesController < ApplicationController
   def create
     issue = Issue.new(issue_params)
     issue.author = User.current
-    issue.project_id = params[:project_id]
+    issue.project = @project
+    issue.kanban_position = @project.kanban_column(issue_params[:status_id]).first.kanban_position - Kanbine::IssueOrder::POSITION_GAP
     if issue.save
       html = render_to_string partial: 'kanban/issue_row', locals: { issue: issue }, layout: false
       render json: {
@@ -79,6 +82,7 @@ class Kanbine::IssuesController < ApplicationController
     end
   end
 
+  private
   def issue_params
     params.require(:issue).permit!
   end
