@@ -42,7 +42,7 @@ a.version.current {
 }
 
 .kanban-column .sortable {
-  min-height: 200px;
+  padding-bottom: 80px;
 }
 
 .kanban-row {
