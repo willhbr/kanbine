@@ -13,6 +13,7 @@
       &nbsp;
     <% end %>
   </div>
+  <%= call_hook(:view_kanbine_issue_row, { :issue => issue }) %>
   <div id="fields" style="display:none">
     <%
     [

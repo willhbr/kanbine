@@ -6,10 +6,11 @@
       <%= link_to status.name, '#', class: 'add-issue icon icon-add' %>
     <% end %>
   </h1>
-  <%= call_hook(:view_kanbine_above_column, { status: status }) %>
+  <%= call_hook(:view_kanbine_above_column, { status: status, issues: issues }) %>
   <div class="sortable">
     <% issues.each do |issue| %>
       <%= render partial: 'issue_row', locals: { issue: issue } %>
     <% end %>
   </div>
+  <%= call_hook(:view_kanbine_below_column, { status: status, issues: issues }) %>
 </div>
