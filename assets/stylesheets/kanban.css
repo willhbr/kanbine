@@ -69,6 +69,15 @@ a.version.current {
   float: right;
   color: #555555;
 }
+.issue-assignee {
+  clear: none;
+  float: left;
+}
+.issue-subtasks {
+  clear: none;
+  float: right;
+  color: #555555;
+}
 .issue-subject {
   clear: both;
 }

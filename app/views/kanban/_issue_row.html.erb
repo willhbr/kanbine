@@ -1,6 +1,6 @@
 <div class="kanban-row draggable <%= "color-id-#{issue.kanban_color_id}" rescue '' %>" id="kb-row-<%= issue.id %>"
   data-id="<%= issue.id %>">
-  <div class="clearfix issue-clear">
+  <div class="issue-clear">
     <div class="issue-id">
       <%= link_to issue.id, issue, target: '_blank' %>
     </div>
@@ -11,13 +11,23 @@
   <div class="issue-subject">
     <%= issue.subject %>
   </div>
-  <div class="issue-assignee">
-    <% if issue.assigned_to_id %>
-      <%= link_to issue.assigned_to.name, issue.assigned_to %>
-    <% else %>
-      &nbsp;
-    <% end %>
+  <div class="issue-clear">
+    <div class="issue-assignee">
+      <% if issue.assigned_to_id %>
+        <%= link_to issue.assigned_to.name, issue.assigned_to %>
+      <% else %>
+        &nbsp;
+      <% end %>
+    </div>
+    <div class="issue-subtasks">
+      <% count = issue.descendants.count %>
+      <% if count != 0 %>
+        <%= pluralize count, 'child' %>
+      <% end %>
+    </div>
+    <div style="clear:both"></div>
   </div>
+
   <%= call_hook(:view_kanbine_issue_row, { :issue => issue }) %>
   <div id="fields" style="display:none">
     <%
