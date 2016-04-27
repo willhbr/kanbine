@@ -6,11 +6,14 @@
 
 <%= render partial: 'versions' %>
 
-<div id="kanban-container">
-  <% @ordered_statuses.each do |status| %>
-    <%= render partial: 'column', locals: { status: status, issues: @issues[status.id] || [] } %>
-  <% end %>
-  <div style="clear:both">
+<div id="outer-container">
+  <div id="kanban-container" data-version="<%= @version_id %>"
+      data-project="<%= @project.id %>">
+    <% @ordered_statuses.each do |status| %>
+      <%= render partial: 'column', locals: { status: status, issues: @issues[status.id] || [] } %>
+    <% end %>
+    <div style="clear:both">
+  </div>
 </div>
 
 <%= render partial: 'dialog_helper' %>

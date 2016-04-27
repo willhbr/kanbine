@@ -10,7 +10,9 @@
       });
     }
   }
+
   function saveIssue(id, elem, form) {
+    var values = form.serializeArray();
     $.post(
       '/kanbine/issues/' + id + '/update',
       form.serialize()
@@ -20,7 +22,44 @@
         elem.html(cont);
       }
     }).always(function(res) {
-      showErrors(elem, res);
+      if(!res.saved) {
+        var diag = showUpdateDialogFor(elem);
+
+        var newForm = diag.find('form');
+        for(var i = 0; i < values.length; i++) {
+          newForm.find("[name='" + values[i].name + "']").val(values[i].value);
+        }
+        var errs = diag.find('#issue-errors');
+        var msg = res.errors !== undefined ? res.errors.join('<br>') : res.responseText;
+        errs.text(msg);
+        errs.show();
+      }
+    });
+  }
+  function createIssue(statusID, form) {
+    // TODO Fix this shiz
+    var projectID = $('#kanban-container').data('project');
+    var values = form.serializeArray();
+    $.post(
+      '/kanbine/issues/' + projectID + '/create',
+      form.serialize()
+    ).done(function(res) {
+      if(res.saved) {
+        $('#kb-col-' + statusID + ' .sortable').prepend($(res.html))
+      }
+    }).always(function(res) {
+      if(!res.saved) {
+        var diag = showCreateDialogForStatus(statusID);
+
+        var newForm = diag.find('form');
+        for(var i = 0; i < values.length; i++) {
+          newForm.find("[name='" + values[i].name + "']").val(values[i].value);
+        }
+        var errs = diag.find('#issue-errors');
+        var msg = res.errors !== undefined ? res.errors.join('<br>') : res.responseText;
+        errs.text(msg);
+        errs.show();
+      }
     });
   }
   function insertIssueIntoDialog(elem, dialog) {
@@ -33,7 +72,7 @@
       target.val(value);
     }
   }
-  function showDialogFor(elem) {
+  function showUpdateDialogFor(elem) {
     var dialog = $('#dialog-helper').clone();
     var id = elem.data('id');
     var title = 'Edit #' + id;
@@ -54,6 +93,29 @@
         $(this).remove();
       }
     });
+    return dialog;
+  }
+  function showCreateDialogForStatus(statusID) {
+    var dialog = $('#dialog-helper').clone();
+    dialog.find('#issue_status_id').val(statusID);
+    var title = 'New Issue';
+    dialog.dialog({
+      modal: true, title: title, autoOpen: true,
+      width: 300, resizable: true,
+      buttons: {
+        'Save': function(event, ui) {
+          createIssue(statusID, dialog.find('form').first());
+          $(this).dialog('close');
+        },
+        'Cancel': function(event, ui) {
+          $(this).dialog('close');
+        }
+      },
+      close: function (event, ui) {
+        $(this).remove();
+      }
+    });
+    return dialog;
   }
   function issueToJSON(elem) {
     var data = {
@@ -74,8 +136,22 @@
       showErrors(elem, res);
     });
   }
+  function setContainerWidth() {
+    var container = $('#kanban-container');
+    var children = container.children('.kanban-column');
+    var count = children.length + 0.5;
+    var width = children.width();
+    container.width(count * width);
+  }
+  function disableDialogFormSubmit() {
+    $(document).on('submit', '#dialog-helper form', function(e) {
+      e.preventDefault();
+    });
+  }
   var allowClick = true;
   $(document).ready(function() {
+    setContainerWidth();
+    disableDialogFormSubmit();
     $('#kanban-container').find('.kanban-column .sortable').sortable({
       connectWith: '.kanban-column .sortable',
       revert: 100,
@@ -92,8 +168,12 @@
     });
     $(document).on('click', '.kanban-row .issue-subject', function(e) {
       if(allowClick) {
-        showDialogFor($(e.currentTarget).parent());
+        showUpdateDialogFor($(e.currentTarget).parent());
       }
+    });
+    $('.add-issue').on('click', function(e) {
+      e.preventDefault();
+      showCreateDialogForStatus($(this).parents('.kanban-column').data('id'));
     });
   });
 })();

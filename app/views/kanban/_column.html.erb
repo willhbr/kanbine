@@ -1,5 +1,11 @@
 <div class="kanban-column" id="kb-col-<%= status.id %>" data-id="<%= status.id %>">
-  <h1 class="header"><%= status.name %></h1>
+  <h1 class="header">
+    <% if status.is_closed %>
+      <%= status.name %>
+    <% else %>
+      <%= link_to status.name, '#', class: 'add-issue icon icon-add' %>
+    <% end %>
+  </h1>
   <div class="sortable">
     <% issues.each do |issue| %>
       <%= render partial: 'issue_row', locals: { issue: issue } %>

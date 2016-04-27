@@ -37,9 +37,33 @@ class Kanbine::IssuesController < ApplicationController
     end
   end
 
+  def create
+    issue = Issue.new(issue_params)
+    issue.author = User.current
+    issue.project_id = params[:project_id]
+    if issue.save
+      html = render_to_string partial: 'kanban/issue_row', locals: { issue: issue }, layout: false
+      render json: {
+        saved: true,
+        html: html
+      }
+    else
+      render json: {
+        saved: false,
+        errors: issue.errors.full_messages
+      }
+    end
+  end
+
   def update
     issue = Issue.find(params[:issue_id])
 
+    attrs = issue_params
+    # The status ID is likely blank (we only use the field for create) so remove
+    # it so the field isn't blanked out
+    if attrs[:status_id].blank? || attrs[:status_id].to_i == 0
+      attrs.delete :status_id
+    end
     issue.init_journal(User.current)
     if issue.update_attributes(issue_params)
       html = render_to_string partial: 'kanban/issue_row', locals: { issue: issue }, layout: false

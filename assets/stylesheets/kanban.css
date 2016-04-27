@@ -15,9 +15,12 @@ a.version.current {
   text-align: center;
 }
 
+#outer-container {
+  overflow-x: scroll;
+}
+
 #kanban-container {
   clear: both;
-  overflow-x: scroll;
 }
 
 .kanban-column {
@@ -28,6 +31,7 @@ a.version.current {
 }
 
 .kanban-column h1.header {
+  text-decoration: none;
   text-align: center;
 }
 
@@ -36,6 +40,7 @@ a.version.current {
 }
 
 .kanban-row {
+  background: white;
   padding: 5px;
   border: 1px solid #aaaaaa;
   border-right: 6px solid #aaaaaa;
@@ -65,6 +70,11 @@ a.version.current {
 
 .ajax-error {
   border-color: red !important;
+}
+
+#issue-errors {
+  color: red;
+  margin: 10px;
 }
 
 #dialog-helper form * {

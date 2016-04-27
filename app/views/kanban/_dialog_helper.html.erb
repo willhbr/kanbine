@@ -1,5 +1,5 @@
 <div id="dialog-helper" style="display:none">
-  <%= form_for :issue, url: '/issues/kanbine_update' do |f| %>
+  <%= form_for :issue, url: '' do |f| %>
     <div id="issue-errors" style="display: none"></div>
     <%= f.label :subject %>
     <%= f.text_field :subject %>
@@ -9,5 +9,8 @@
     <%= f.select :assigned_to_id, options_for_select(@project.users.order(:firstname, :lastname).map { |u| [u.name, u.id] }), include_blank: true %>
     <%= f.label :fixed_version %>
     <%= f.select :fixed_version_id, options_for_select(@project.versions.open.visible.map { |s| [s.name, s.id] }), include_blank: true %>
+    <%= f.label :tracker %>
+    <%= f.select :tracker_id, options_for_select(@project.kanban_trackers.map { |s| [s.name, s.id] }) %>
+    <%= f.hidden_field :status_id %>
   <% end %>
 </div>
