@@ -43,7 +43,12 @@ class Kanbine::IssuesController < ApplicationController
     issue = Issue.new(issue_params)
     issue.author = User.current
     issue.project = @project
-    issue.kanban_position = @project.kanban_column(issue_params[:status_id]).first.kanban_position - Kanbine::IssueOrder::POSITION_GAP
+    first_issue = @project.kanban_column(issue_params[:status_id]).first
+    if first_issue.nil?
+      issue.kanban_position = Kanbine::IssueOrder::START_POSITION
+    else
+      issue.kanban_position = first_issue.kanban_position - Kanbine::IssueOrder::POSITION_GAP
+    end
     if issue.save
       html = render_to_string partial: 'kanban/issue_row', locals: { issue: issue }, layout: false
       render json: {
